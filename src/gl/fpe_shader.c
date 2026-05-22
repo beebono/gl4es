@@ -1736,7 +1736,7 @@ const char* const* fpe_CustomFragmentShader(const char* initial, fpe_state_t* st
         // wrap real main...
         shad = gl4es_inplace_replace(shad, &shad_cap, "main", "_gl4es_main");
         if(is_fragcolor) {
-            int l_main = gl4es_getline_for(shad, gl4es_prev_str(shad, strstr(shad, "_gl4es_main"))) - 1;
+            int l_main = gl4es_getline_for(shad, gl4es_prev_str(shad, strstr(shad, "_gl4es_main")));
             shad = gl4es_inplace_insert(gl4es_getline(shad, l_main), "lowp vec4 _gl4es_FragColor;\n", shad, &shad_cap);
             shad = gl4es_inplace_replace(shad, &shad_cap, "gl_FragColor", "_gl4es_FragColor");
         }
