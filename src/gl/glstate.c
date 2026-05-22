@@ -327,6 +327,8 @@ void* NewGLState(void* shared_glstate, int es2only) {
         glstate->texenv[i].env.mode = GL_MODULATE;
         glstate->texenv[i].env.rgb_scale = 1.0f;
         glstate->texenv[i].env.alpha_scale = 1.0f;
+        // GL spec default for GL_COMBINE_RGB/ALPHA is GL_MODULATE (not 0/REPLACE)
+        glstate->texenv[i].env.combine_rgb = glstate->texenv[i].env.combine_alpha = GL_MODULATE;
         glstate->texenv[i].env.src0_rgb = glstate->texenv[i].env.src0_alpha = GL_TEXTURE;
         glstate->texenv[i].env.src1_rgb = glstate->texenv[i].env.src1_alpha = GL_PREVIOUS;
         glstate->texenv[i].env.src2_rgb = glstate->texenv[i].env.src2_alpha = GL_CONSTANT;
@@ -363,6 +365,8 @@ void* NewGLState(void* shared_glstate, int es2only) {
             glstate->fpe_state->texenv[i].texsrcalpha2 = FPE_SRC_CONSTANT;
             glstate->fpe_state->texenv[i].texoprgb0 = FPE_OP_SRCCOLOR;
             glstate->fpe_state->texenv[i].texoprgb1 = FPE_OP_SRCCOLOR;
+            // GL_COMBINE_RGB/ALPHA default to GL_MODULATE per spec.
+            glstate->fpe_state->texcombine[i] = FPE_CR_MODULATE | (FPE_CR_MODULATE<<4);
         }
         if(globals4es.shaderblend) {
             glstate->fpe_state->blendsrcrgb = FPE_BLEND_ONE;
