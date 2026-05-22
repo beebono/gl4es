@@ -818,6 +818,7 @@ const char* const* fpe_FragmentShader(shaderconv_need_t* need, fpe_state_t *stat
     if(!shad) shad = (char*)malloc(shad_cap);
     fpe_state_t default_state = {0};
     int is_default = !need;
+    int companion = !is_default;
     if(!state) state = &default_state;
     int headers = 0;
     int lighting = state->lighting;
@@ -866,18 +867,21 @@ const char* const* fpe_FragmentShader(shaderconv_need_t* need, fpe_state_t *stat
         ShadAppend(buff);
         headers+=gl4es_countline(buff);
     }
-    ShadAppend("varying vec4 Color;\n");
-    headers++;
-    if(twosided) {
-        ShadAppend("varying vec4 BackColor;\n");
-        headers++;
-    }
-    if(light_separate || secondary) {
-        ShadAppend("varying vec4 SecColor;\n");
+
+    if(!companion) {
+        ShadAppend("varying vec4 Color;\n");
         headers++;
         if(twosided) {
-            ShadAppend("varying vec4 SecBackColor;\n");
+            ShadAppend("varying vec4 BackColor;\n");
             headers++;
+        }
+        if(light_separate || secondary) {
+            ShadAppend("varying vec4 SecColor;\n");
+            headers++;
+            if(twosided) {
+                ShadAppend("varying vec4 SecBackColor;\n");
+                headers++;
+            }
         }
     }
     if(fog) {
@@ -959,8 +963,12 @@ const char* const* fpe_FragmentShader(shaderconv_need_t* need, fpe_state_t *stat
     }
 
     //*** initial color
-    sprintf(buff, "vec4 fColor = %s;\n", twosided?"(gl_FrontFacing)?Color:BackColor":"Color");
-    ShadAppend(buff);
+    if(companion) {
+        ShadAppend("vec4 fColor = gl_Color;\n");
+    } else {
+        sprintf(buff, "vec4 fColor = %s;\n", twosided?"(gl_FrontFacing)?Color:BackColor":"Color");
+        ShadAppend(buff);
+    }
 
     //*** apply textures
     if(texturing && (!point || pointsprite) ) {
@@ -1346,8 +1354,12 @@ const char* const* fpe_FragmentShader(shaderconv_need_t* need, fpe_state_t *stat
             sprintf(buff, "// Add Secondary color (%s %s)\n", light_separate?"light":"", secondary?"secondary":"");
             ShadAppend(buff);
         }
-        sprintf(buff, "fColor.rgb += (%s).rgb;\n", twosided?"(gl_FrontFacing)?SecColor:SecBackColor":"SecColor");
-        ShadAppend(buff);
+        if(companion) {
+            ShadAppend("fColor.rgb += gl_SecondaryColor.rgb;\n");
+        } else {
+            sprintf(buff, "fColor.rgb += (%s).rgb;\n", twosided?"(gl_FrontFacing)?SecColor:SecBackColor":"SecColor");
+            ShadAppend(buff);
+        }
         ShadAppend("fColor.rgb = clamp(fColor.rgb, 0., 1.);\n");
     }
 
