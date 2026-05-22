@@ -718,8 +718,7 @@ void APIENTRY_GL4ES fpe_glSecondaryColorPointer(GLint size, GLenum type, GLsizei
     glstate->vao->vertexattrib[ATT_SECONDARY].normalized = (type==GL_FLOAT)?GL_FALSE:GL_TRUE;
     glstate->vao->vertexattrib[ATT_SECONDARY].real_buffer = 0;
     glstate->vao->vertexattrib[ATT_SECONDARY].real_pointer = 0;
-    glstate->vao->vertexattrib[ATT_SECONDARY].buffer = glstate->vao->vertex;
-
+    glstate->vao->vertexattrib[ATT_SECONDARY].buffer = NULL;
 }
 
 void APIENTRY_GL4ES fpe_glVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) {
@@ -732,7 +731,7 @@ void APIENTRY_GL4ES fpe_glVertexPointer(GLint size, GLenum type, GLsizei stride,
     glstate->vao->vertexattrib[ATT_VERTEX].normalized = GL_FALSE;
     glstate->vao->vertexattrib[ATT_VERTEX].real_buffer = 0;
     glstate->vao->vertexattrib[ATT_VERTEX].real_pointer = 0;
-    glstate->vao->vertexattrib[ATT_VERTEX].buffer = glstate->vao->vertex;
+    glstate->vao->vertexattrib[ATT_VERTEX].buffer = NULL;
 }
 
 void APIENTRY_GL4ES fpe_glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) {
@@ -745,7 +744,7 @@ void APIENTRY_GL4ES fpe_glColorPointer(GLint size, GLenum type, GLsizei stride, 
     glstate->vao->vertexattrib[ATT_COLOR].normalized = (type==GL_FLOAT)?GL_FALSE:GL_TRUE;
     glstate->vao->vertexattrib[ATT_COLOR].real_buffer = 0;
     glstate->vao->vertexattrib[ATT_COLOR].real_pointer = 0;
-    glstate->vao->vertexattrib[ATT_COLOR].buffer = glstate->vao->vertex;
+    glstate->vao->vertexattrib[ATT_COLOR].buffer = NULL;
 }
 
 void APIENTRY_GL4ES fpe_glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
@@ -758,7 +757,7 @@ void APIENTRY_GL4ES fpe_glNormalPointer(GLenum type, GLsizei stride, const GLvoi
     glstate->vao->vertexattrib[ATT_NORMAL].normalized = (type==GL_FLOAT)?GL_FALSE:GL_TRUE;
     glstate->vao->vertexattrib[ATT_NORMAL].real_buffer = 0;
     glstate->vao->vertexattrib[ATT_NORMAL].real_pointer = 0;
-    glstate->vao->vertexattrib[ATT_NORMAL].buffer = glstate->vao->vertex;
+    glstate->vao->vertexattrib[ATT_NORMAL].buffer = NULL;
 }
 
 void APIENTRY_GL4ES fpe_glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) {
@@ -775,7 +774,7 @@ void APIENTRY_GL4ES fpe_glTexCoordPointerTMU(GLint size, GLenum type, GLsizei st
     glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+TMU].normalized = GL_FALSE;
     glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+TMU].real_buffer = 0;
     glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+TMU].real_pointer = 0;
-    glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+TMU].buffer = glstate->vao->vertex;
+    glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+TMU].buffer = NULL;
 }
 
 void APIENTRY_GL4ES fpe_glFogCoordPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
@@ -788,7 +787,7 @@ void APIENTRY_GL4ES fpe_glFogCoordPointer(GLenum type, GLsizei stride, const GLv
     glstate->vao->vertexattrib[ATT_FOGCOORD].normalized = (type==GL_FLOAT)?GL_FALSE:GL_TRUE;
     glstate->vao->vertexattrib[ATT_FOGCOORD].real_buffer = 0;
     glstate->vao->vertexattrib[ATT_FOGCOORD].real_pointer = 0;
-    glstate->vao->vertexattrib[ATT_FOGCOORD].buffer = glstate->vao->vertex;
+    glstate->vao->vertexattrib[ATT_FOGCOORD].buffer = NULL;
 }
 
 void APIENTRY_GL4ES fpe_glEnable(GLenum cap) {
